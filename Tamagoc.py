@@ -2,23 +2,23 @@ import pygame
 import os
 import sys
 import random
-import datetime
 
 from pygame.locals import * 
 
 SEC = 1000
 
-
-def load_image(name, colorkey=None):
+def load_image(name, colorkey=None, exitiffail = True):
     if not os.path.isfile(name):
-        print(f"Файл с изображением '{name}' не найден")
-        sys.exit()
+        if(exitiffail):
+            print(f"Файл с изображением '{name}' не найден")
+            sys.exit()
+        return None
     image = pygame.image.load(name)
     if colorkey is not None:
         image = image.convert()
         if colorkey == -1:
             colorkey = image.get_at((0, 0))
-        image.set_colorkey(cKey)
+        image.set_colorkey(colorkey)
     else:
         image = image.convert_alpha()
     return image
@@ -28,10 +28,16 @@ def exit():
     pygame.quit()
     sys.exit()
 
+def CreateMam():
+    mam = pygame.sprite.Sprite()
+    mam.image = load_image("resources/big_dog.png")
+    mam.rect = mam.image.get_rect()
+    mam.rect.x = 300
+    mam.rect.y = 215
+    return mam
 
 def start_play():
-    starting_play_bg = pygame.transform.scale(load_image('fon_menu.jpg'), (800, 650))
-    run = True
+    starting_play_bg = pygame.transform.scale(load_image('resources/fon_menu.jpg'), (800, 650))
     first_text = ['         Choose']
     text_coord2 = 13
     start_text = ['выбери персонажа:', "", "", "", '              Ок']
@@ -58,25 +64,21 @@ def start_play():
     clock = pygame.time.Clock()
     menu_hero = pygame.sprite.Group()
     one = pygame.sprite.Sprite()
-    one.image = load_image("big_cat.png")
+    one.image = load_image("resources/big_cat.png")
     one.rect = one.image.get_rect()
     one.rect.x = 100
     one.rect.y = 200
     menu_hero.add(one)
-    mam = pygame.sprite.Sprite()
-    mam.image = load_image("big_dog.png")
-    mam.rect = mam.image.get_rect()
-    mam.rect.x = 300
-    mam.rect.y = 215
+    mam = CreateMam()
     menu_hero.add(mam)
     rabbit = pygame.sprite.Sprite()
-    rabbit.image = load_image("big_rabbit.png")
+    rabbit.image = load_image("resources/big_rabbit.png")
     rabbit.rect = rabbit.image.get_rect()
     rabbit.rect.x = 500
     rabbit.rect.y = 215
     menu_hero.add(rabbit)
     menu_hero.draw(screen)
-    while run:
+    while (True):
         for event in pygame.event.get():
             screen.blit(starting_play_bg, (0, 0))
             menu_hero.draw(screen)
@@ -90,19 +92,19 @@ def start_play():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 coor_in_start_play = event.pos
                 if 100 < coor_in_start_play[0] < 298 and 200 < coor_in_start_play[1] < 415:
-                    one.image = load_image('big_cat.png')
-                    mam.image = load_image("big_dog.png")
-                    rabbit.image = load_image("big_rabbit.png")
+                    one.image = load_image('resources/big_cat.png')
+                    mam.image = load_image('resources/big_dog.png')
+                    rabbit.image = load_image('resources/big_rabbit.png')
                     pet = 1
                 elif 330 < coor_in_start_play[0] < 475 and 215 < coor_in_start_play[1] < 398:
-                    mam.image = load_image("big_dog.png")
-                    one.image = load_image("big_cat.png")
-                    rabbit.image = load_image("big_rabbit.png")
+                    mam.image = load_image('resources/big_dog.png')
+                    one.image = load_image('resources/big_cat.png')
+                    rabbit.image = load_image('resources/big_rabbit.png')
                     pet = 2
                 elif 510 < coor_in_start_play[0] < 665 and 220 < coor_in_start_play[1] < 400:
-                    rabbit.image = load_image("big_rabbit.png")
-                    mam.image = load_image("big_dog.png")
-                    one.image = load_image("big_cat.png")
+                    rabbit.image = load_image('resources/big_rabbit.png')
+                    mam.image = load_image('resources/big_dog.png')
+                    one.image = load_image('resources/big_cat.png')
                     pet = 3
                 menu_hero.draw(screen)
                 if pet != 0:
@@ -113,7 +115,7 @@ def start_play():
 
 def happy_ending(pet):
     text_win = ['Вы отлично ухаживали за питомцем,', 'он вырос здоровым и счастливым!']
-    menu_bg = pygame.transform.scale(load_image('fon_menu.jpg'), (800, 650))
+    menu_bg = pygame.transform.scale(load_image('resources/fon_menu.jpg'), (800, 650))
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 50)
     text_coord = 110
@@ -133,13 +135,13 @@ def happy_ending(pet):
         for event in pygame.event.get():
             screen.blit(menu_bg, (0, 0))
             if pet == 1:
-                image = load_image('leave_cat.png')
+                image = load_image('recources/leave_cat.png')
                 screen.blit(image, (100, 250))
             elif pet == 2:
-                image = load_image('leave_dog.png')
+                image = load_image('resources/leave_dog.png')
                 screen.blit(image, (50, 200))
             elif pet == 3:
-                image = load_image('leave_rabbit.png')
+                image = load_image('resources/leave_rabbit.png')
                 screen.blit(image, (0, 150))
 
             pygame.mouse.set_visible(True)
@@ -157,7 +159,7 @@ def happy_ending(pet):
 
 def sad_ending(pet):
     text_win = ['К сожалению, вы плохо ухаживали', 'за питомцем, и он ушел.']
-    menu_bg = pygame.transform.scale(load_image('fon_menu.jpg'), (800, 650))
+    menu_bg = pygame.transform.scale(load_image('resources/fon_menu.jpg'), (800, 650))
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 50)
     text_coord = 110
@@ -177,13 +179,13 @@ def sad_ending(pet):
         for event in pygame.event.get():
             screen.blit(menu_bg, (0, 0))
             if pet == 1:
-                image = load_image('leave_cat_sad.png')
+                image = load_image('resources/leave_cat_sad.png')
                 screen.blit(image, (100, 250))
             elif pet == 2:
-                image = load_image('leave_dog_sad.png')
+                image = load_image('resources/leave_dog_sad.png')
                 screen.blit(image, (50, 200))
             elif pet == 3:
-                image = load_image('leave_rabbit_sad.png')
+                image = load_image('resources/leave_rabbit_sad.png')
                 screen.blit(image, (0, 150))
 
             pygame.mouse.set_visible(True)
@@ -202,7 +204,7 @@ def sad_ending(pet):
 def start_menu():
     FPS = 60
     menu_text = ['Главное меню','Играть']
-    menu_bg = pygame.transform.scale(load_image('fon_menu.jpg'), (800, 650))
+    menu_bg = pygame.transform.scale(load_image('resources/fon_menu.jpg'), (800, 650))
     screen.blit(menu_bg, (0, 0))
     run = True
     clock = pygame.time.Clock()
@@ -266,17 +268,17 @@ class Hero(pygame.sprite.Sprite):
 
         pet = indicators[3]
         if pet == 1:
-            self.image = load_image('cat.png')
-            self.image_sleep = load_image('sleep_cat.png')
-            self.image_food = load_image('eat_cat.png')
+            self.image = load_image('resources/cat.png')
+            self.image_sleep = load_image('resources/sleep_cat.png')
+            self.image_food = load_image('resources/eat_cat.png')
         elif pet == 2:
-            self.image = load_image('rabbit.png')
-            self.image_sleep = load_image('sleep_rabbit.png')
-            self.image_food = load_image('eat_rabbit.png')
+            self.image = load_image('resources/rabbit.png')
+            self.image_sleep = load_image('resources/sleep_rabbit.png')
+            self.image_food = load_image('resources/eat_rabbit.png')
         elif pet == 3:
-            self.image = load_image('dog.png')
-            self.image_sleep = load_image('sleep_dog.png')
-            self.image_food = load_image('eat_dog.png')
+            self.image = load_image('resources/dog.png')
+            self.image_sleep = load_image('resources/sleep_dog.png')
+            self.image_food = load_image('resources/eat_dog.png')
         self.rect = self.image.get_rect()
         self.rect.centerx = 400
         self.rect.bottom = 500
@@ -287,11 +289,11 @@ class Hero(pygame.sprite.Sprite):
         pet = indicators[3]
 
         if pet == 1:
-            self.image = load_image('cat.png')
+            self.image = load_image('resources/cat.png')
         elif pet == 3:
-            self.image = load_image('rabbit.png')
+            self.image = load_image('resources/rabbit.png')
         elif pet == 2:
-            self.image = load_image('dog.png')
+            self.image = load_image('resources/dog.png')
         if 110 < x1 < 250 and 250 < y1 < 350:
             self.rect.centerx = x1
             self.rect.centery = y1
@@ -353,12 +355,12 @@ class Hero(pygame.sprite.Sprite):
 
 
 def main_play():
-    bg = load_image("cub.jpg")
+    bg = load_image("resources/cub.jpg")
     all_sprites = pygame.sprite.Group()
     player = Hero()
-    food_icon = load_image('food_icon.png')
-    sleep_icon = load_image('sleep_icon.png')
-    soap_icon = load_image('soap_icon.png')
+    food_icon = load_image('resources/food_icon.png')
+    sleep_icon = load_image('resources/sleep_icon.png')
+    soap_icon = load_image('resources/soap_icon.png')
     all_sprites.add(player)
 
     pygame.time.set_timer(USEREVENT + 1, SEC)
@@ -438,15 +440,19 @@ def main_play():
         if indicators[4] >= 100 and indicators[0] > 0 and indicators[1] > 0 and indicators[2] > 0:
             happy_ending(indicators[3])
 
-
-if __name__ == '__main__':
+def Tamainit():
     pygame.init()
     size = width, height = 800, 650
+    global screen 
     screen = pygame.display.set_mode(size)
+
+if __name__ == '__main__':
+    Tamainit()
+
     pygame.display.set_caption('Тамагочи')
     FPS = 60
 
-    particles = [load_image("bubble.png")]
+    particles = [load_image("resources/bubble.png")]
     for scale in (5, 10, 20):
         particles.append(pygame.transform.scale(particles[0], (scale, scale)))
     bub_sprites = pygame.sprite.Group()
