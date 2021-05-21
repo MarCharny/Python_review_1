@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{c75fd9ad-e754-40ea-b56d-a639019bec4e}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>Tamagoc.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>Global|PythonCore|3.7</InterpreterId>
+    <TestFramework>unittest</TestFramework>
+    <UnitTestPattern>test*.py</UnitTestPattern>
+    <UnitTestRootDirectory>.</UnitTestRootDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Tamagoc.py" />
+    <Compile Include="test_main.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\big_cat.png" />
+    <Content Include="resources\big_dog.png" />
+    <Content Include="resources\big_rabbit.png" />
+    <Content Include="resources\bubble.png" />
+    <Content Include="resources\cat.png" />
+    <Content Include="resources\Clothes.png" />
+    <Content Include="resources\cub.jpg" />
+    <Content Include="resources\dog.png" />
+    <Content Include="resources\eat_cat.png" />
+    <Content Include="resources\eat_dog.png" />
+    <Content Include="resources\eat_rabbit.png" />
+    <Content Include="resources\fon_menu.jpg" />
+    <Content Include="resources\food_icon.png" />
+    <Content Include="resources\leave_cat.png" />
+    <Content Include="resources\leave_cat_sad.png" />
+    <Content Include="resources\leave_dog.png" />
+    <Content Include="resources\leave_dog_sad.png" />
+    <Content Include="resources\leave_rabbit.png" />
+    <Content Include="resources\leave_rabbit_sad.png" />
+    <Content Include="resources\rabbit.png" />
+    <Content Include="resources\sleep_cat.png" />
+    <Content Include="resources\sleep_dog.png" />
+    <Content Include="resources\sleep_icon.png" />
+    <Content Include="resources\sleep_rabbit.png" />
+    <Content Include="resources\soap_icon.png" />
+    <Content Include="resources\time.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
